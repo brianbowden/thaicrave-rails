@@ -6,6 +6,13 @@ ThaicraveRails::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'splash#index'
 
+  devise_for :users
+
+  namespace :api do
+    resources :tokens, :only => [:create, :destroy]
+    resources :shitastic, :only => [:index]
+  end
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
