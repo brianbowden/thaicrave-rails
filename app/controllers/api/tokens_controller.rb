@@ -7,7 +7,7 @@ class Api::TokensController < ApplicationController
         password = params[:password]
 
         if request.format != :json
-            render :status => 406, :json => { :message => "Request must be JSON" }
+            render :status => 406, :json => { :error_message => "Request must be JSON" }
             return
         end
 
@@ -21,7 +21,7 @@ class Api::TokensController < ApplicationController
 
         if @user.nil?
             logger.info("User #{email} failed signin, user cannot be found")
-            render :status => 401, :json => { :message => "Invalid email or password"}
+            render :status => 401, :json => { :message => "Invalid email or password" }
             return
         end
 
