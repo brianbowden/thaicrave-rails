@@ -6,11 +6,11 @@ ThaicraveRails::Application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'splash#index'
 
-  devise_for :users
+  devise_for :users, :controllers => { :registrations => "api/registrations" }, 
+             :path => '/api/users', :defaults => { :format => 'json' }
 
   namespace :api do
     resources :tokens, :only => [:create, :destroy]
-    resources :shitastic, :only => [:index]
   end
 
   # Example of regular route:
