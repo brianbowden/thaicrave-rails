@@ -1,5 +1,6 @@
 class Api::TokensController < ApplicationController
     skip_before_filter :authenticate_user_from_token!
+    skip_before_filter :authenticate_user!
     respond_to :json
 
     def create
@@ -24,8 +25,6 @@ class Api::TokensController < ApplicationController
             render :status => 401, :json => { :message => "Invalid email or password" }
             return
         end
-
-        @user.ensure_authentication_token!
 
         if not @user.valid_password?(password)
             logger.info("User #{email} failed signin, password is invalid")

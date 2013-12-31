@@ -1,9 +1,10 @@
 class Api::RegistrationsController < Devise::RegistrationsController
-    skip_before_filter :verify_authenticity_token
+    #skip_before_filter :verify_authenticity_token
     respond_to :json
 
     def create
         @user = User.new(:first_name => params[:first_name],
+                         :last_name => params[:last_name],
                          :email => params[:email], 
                          :password => params[:password],
                          :password_confirmation => params[:password_confirmation])
