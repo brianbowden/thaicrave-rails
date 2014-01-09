@@ -10,7 +10,7 @@ ThaicraveRails::Application.routes.draw do
              :path => '/api/users', :defaults => { :format => 'json' }
 
   namespace :api do
-    resources :tokens, :only => [:create, :destroy]
+    resources :tokens, :only => [:create, :destroy], :defaults => { :format => 'json' }
   end
 
   # Example of regular route:
