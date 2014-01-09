@@ -3,7 +3,7 @@ require 'pp'
 
 describe "Token Authentication" do
 
-  before do
+  before :each do
     @user = User.create(
       first_name: "Brian",
       last_name: "Bowden",
@@ -13,16 +13,21 @@ describe "Token Authentication" do
   end
 
   it "gets a token" do
-    post "/api/tokens.json", {:email => "brian@bowdenworks.net", :password => "test1234"}, :format => :json
+    post "/api/tokens.json", {:email => @user.email.to_s, :password => @user.password.to_s}, :format => :json
     body = JSON.parse(response.body)
     body.should include('token')
     body['token'].should_not be_empty
   end
 
   it "destroys a token" do
-    delete "/api/tokens/" + put auth token here, nil, :format => :json
+    @user.ensure_authentication_token
+    @user.save
+    
+    delete "/api/tokens/" + @user.authentication_token.to_s, nil, :format => :json
     body = JSON.parse(response.body)
     body.should include('token')
-    body['token'].should be_empty
+    
+    @user.reload
+    @user.authentication_token.to_s.should_not eq body['token'].to_s
   end
 end
