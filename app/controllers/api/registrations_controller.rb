@@ -1,5 +1,5 @@
 class Api::RegistrationsController < Devise::RegistrationsController
-    #skip_before_filter :verify_authenticity_token
+    skip_before_filter :verify_authenticity_token
     respond_to :json
 
     def create
@@ -9,8 +9,10 @@ class Api::RegistrationsController < Devise::RegistrationsController
                          :password => params[:password],
                          :password_confirmation => params[:password_confirmation])
 
+        @user.ensure_authentication_token
+
         if @user.save
-            render :status => 200, :json => @user.to_json
+            render :status => 200, :json => @user, :methods => :authentication_token
         else
             logger.info("Unable to create user #{params[:email]}")
             render :status => 500, :json => { :message => "Unable to register user",

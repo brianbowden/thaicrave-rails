@@ -13,9 +13,9 @@ class Api::TokensController < ApplicationController
             return
         end
 
-        if email.nil? or password.nil?
+        if email.empty? or password.empty?
             render :status => 400,
-                   :json => { :message => "Request must contain both email and password" }
+                   :json => { :message => "Missing email or password" }
             return
         end
 

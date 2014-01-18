@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  attr_accessor :token
+
   # Pulled these into the User model since Devise 
   # support for authentication toekns was dropped
 	def ensure_authentication_token
